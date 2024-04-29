@@ -2,7 +2,7 @@
 
 package zenity
 
-import "github.com/ncruces/zenity/internal/zenutil"
+import "github.com/dcam0050/zenity/internal/zenutil"
 
 func isAvailable() bool { return zenutil.IsAvailable() }
 

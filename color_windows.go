@@ -5,7 +5,7 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/ncruces/zenity/internal/win"
+	"github.com/dcam0050/zenity/internal/win"
 )
 
 var (

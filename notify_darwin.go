@@ -3,7 +3,7 @@ package zenity
 import (
 	"strings"
 
-	"github.com/ncruces/zenity/internal/zenutil"
+	"github.com/dcam0050/zenity/internal/zenutil"
 )
 
 func notify(text string, opts options) error {

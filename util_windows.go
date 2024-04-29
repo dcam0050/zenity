@@ -13,13 +13,14 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/ncruces/zenity/internal/win"
+	"github.com/dcam0050/zenity/internal/win"
 )
 
 const (
 	_WS_ZEN_DIALOG    = win.WS_POPUPWINDOW | win.WS_CLIPSIBLINGS | win.WS_DLGFRAME
 	_WS_EX_ZEN_DIALOG = win.WS_EX_CONTROLPARENT | win.WS_EX_WINDOWEDGE | win.WS_EX_DLGMODALFRAME
 	_WS_ZEN_LABEL     = win.WS_CHILD | win.WS_VISIBLE | win.WS_GROUP | win.SS_WORDELLIPSIS | win.SS_EDITCONTROL | win.SS_NOPREFIX
+	_WS_ZEN_PROGRESS  = win.WS_CHILD | win.WS_VISIBLE | win.WS_GROUP | win.SS_EDITCONTROL | win.SS_NOPREFIX
 	_WS_ZEN_CONTROL   = win.WS_CHILD | win.WS_VISIBLE | win.WS_GROUP | win.WS_TABSTOP
 	_WS_ZEN_BUTTON    = _WS_ZEN_CONTROL
 )

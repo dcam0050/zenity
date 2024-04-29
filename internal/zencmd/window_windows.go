@@ -3,7 +3,7 @@ package zencmd
 import (
 	"strconv"
 
-	"github.com/ncruces/zenity/internal/win"
+	"github.com/dcam0050/zenity/internal/win"
 	"golang.org/x/sys/windows"
 )
 

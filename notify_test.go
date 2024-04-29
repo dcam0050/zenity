@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/ncruces/zenity"
+	"github.com/dcam0050/zenity"
 	"go.uber.org/goleak"
 )
 

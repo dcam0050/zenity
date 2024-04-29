@@ -47,6 +47,10 @@ func NoCancel() Option {
 	return funcOption(func(o *options) { o.noCancel = true })
 }
 
+func NoOK() Option {
+	return funcOption(func(o *options) { o.noOK = true })
+}
+
 // AutoClose returns an Option to dismiss the dialog when 100% has been reached.
 func AutoClose() Option {
 	return funcOption(func(o *options) { o.autoClose = true })

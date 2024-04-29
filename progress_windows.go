@@ -6,7 +6,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/ncruces/zenity/internal/win"
+	"github.com/dcam0050/zenity/internal/win"
 )
 
 func progress(opts options) (ProgressDialog, error) {
@@ -143,13 +143,21 @@ func (dlg *progressDialog) setup(opts options) error {
 	}
 	defer win.UnregisterClass(cls, instance)
 
+	if opts.width < 281 {
+		opts.width = 281
+	}
+
+	if opts.height < 150 {
+		opts.height = 150
+	}
+
 	dlg.wnd, _ = win.CreateWindowEx(_WS_EX_ZEN_DIALOG,
 		cls, strptr(*opts.title), _WS_ZEN_DIALOG,
 		win.CW_USEDEFAULT, win.CW_USEDEFAULT,
 		281, 133, owner, 0, instance, unsafe.Pointer(dlg))
 
 	dlg.textCtl, _ = win.CreateWindowEx(0,
-		strptr("STATIC"), nil, _WS_ZEN_LABEL,
+		strptr("STATIC"), nil, _WS_ZEN_PROGRESS,
 		12, 10, 241, 16, dlg.wnd, 0, instance, nil)
 
 	var flags uint32 = win.WS_CHILD | win.WS_VISIBLE | win.PBS_SMOOTH
@@ -180,9 +188,10 @@ func (dlg *progressDialog) setup(opts options) error {
 			12, 58, 75, 24, dlg.wnd, win.IDNO, instance, nil)
 	}
 
-	dlg.layout(getDPI(dlg.wnd))
+	dlg.layout(getDPI(dlg.wnd), int(opts.width), int(opts.height))
 	centerWindow(dlg.wnd)
 	win.ShowWindow(dlg.wnd, win.SW_NORMAL)
+
 	if opts.maxValue < 0 {
 		win.SendMessage(dlg.progCtl, win.PBM_SETMARQUEE, 1, 0)
 	} else {
@@ -211,32 +220,35 @@ func (dlg *progressDialog) setup(opts options) error {
 	return dlg.err
 }
 
-func (d *progressDialog) layout(dpi dpi) {
+func (d *progressDialog) layout(dpi dpi, customWidth int, customHeight int) {
 	font := d.font.forDPI(dpi)
 	win.SendMessage(d.textCtl, win.WM_SETFONT, font, 1)
 	win.SendMessage(d.okBtn, win.WM_SETFONT, font, 1)
 	win.SendMessage(d.cancelBtn, win.WM_SETFONT, font, 1)
 	win.SendMessage(d.extraBtn, win.WM_SETFONT, font, 1)
-	win.SetWindowPos(d.wnd, 0, 0, 0, dpi.scale(281), dpi.scale(133), win.SWP_NOMOVE|win.SWP_NOZORDER)
-	win.SetWindowPos(d.textCtl, 0, dpi.scale(12), dpi.scale(10), dpi.scale(241), dpi.scale(16), win.SWP_NOZORDER)
-	win.SetWindowPos(d.progCtl, 0, dpi.scale(12), dpi.scale(30), dpi.scale(241), dpi.scale(16), win.SWP_NOZORDER)
 
-	pos := 178
+	scaledWidth := dpi.scale(customWidth)
+	scaledHeight := dpi.scale(customHeight)
+
+	progressPad := 15
+	hsub := 100
+	buttonAdd := 25
+
+	win.SetWindowPos(d.wnd, 0, 0, 0, scaledWidth, scaledHeight, win.SWP_NOMOVE|win.SWP_NOZORDER)
+	win.SetWindowPos(d.textCtl, 0, dpi.scale(12), dpi.scale(10), scaledWidth-dpi.scale(40), dpi.scale(customHeight-hsub-progressPad), win.SWP_NOZORDER)
+	win.SetWindowPos(d.progCtl, 0, dpi.scale(12), dpi.scale(customHeight-hsub), scaledWidth-dpi.scale(40), dpi.scale(16), win.SWP_NOZORDER)
+
+	pos := scaledWidth - dpi.scale(103) // Adjust this based on actual layout requirements
 	if d.cancelBtn != 0 {
-		win.SetWindowPos(d.cancelBtn, 0, dpi.scale(pos), dpi.scale(58), dpi.scale(75), dpi.scale(24), win.SWP_NOZORDER)
-		pos -= 83
+		win.SetWindowPos(d.cancelBtn, 0, dpi.scale(pos), dpi.scale(customHeight-hsub+buttonAdd), dpi.scale(75), dpi.scale(24), win.SWP_NOZORDER)
+		pos -= dpi.scale(83)
 	}
 	if d.extraBtn != 0 {
-		win.SetWindowPos(d.extraBtn, 0, dpi.scale(pos), dpi.scale(58), dpi.scale(75), dpi.scale(24), win.SWP_NOZORDER)
-		pos -= 83
+		win.SetWindowPos(d.extraBtn, 0, dpi.scale(pos), dpi.scale(customHeight-hsub+buttonAdd), dpi.scale(75), dpi.scale(24), win.SWP_NOZORDER)
+		pos -= dpi.scale(83)
 	}
 	if d.okBtn != 0 {
-		win.SetWindowPos(d.okBtn, 0, dpi.scale(pos), dpi.scale(58), dpi.scale(75), dpi.scale(24), win.SWP_NOZORDER)
-		pos -= 83
-	}
-
-	if pos == 178 {
-		win.SetWindowPos(d.wnd, 0, 0, 0, dpi.scale(281), dpi.scale(97), win.SWP_NOMOVE|win.SWP_NOZORDER)
+		win.SetWindowPos(d.okBtn, 0, dpi.scale(pos), dpi.scale(customHeight-hsub+buttonAdd), dpi.scale(75), dpi.scale(24), win.SWP_NOZORDER)
 	}
 }
 
@@ -274,7 +286,7 @@ func progressProc(wnd win.HWND, msg uint32, wparam uintptr, lparam *unsafe.Point
 		win.DestroyWindow(wnd)
 
 	case win.WM_DPICHANGED:
-		dlg.layout(dpi(uint32(wparam) >> 16))
+		dlg.layout(dpi(uint32(wparam)>>16), 200, 100)
 
 	default:
 		return win.DefWindowProc(wnd, msg, wparam, unsafe.Pointer(lparam))

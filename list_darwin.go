@@ -3,7 +3,7 @@ package zenity
 import (
 	"fmt"
 
-	"github.com/ncruces/zenity/internal/zenutil"
+	"github.com/dcam0050/zenity/internal/zenutil"
 )
 
 func list(text string, items []string, opts options) (string, error) {

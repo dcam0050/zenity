@@ -15,7 +15,7 @@ import (
 	"image/color"
 	"time"
 
-	"github.com/ncruces/zenity/internal/zenutil"
+	"github.com/dcam0050/zenity/internal/zenutil"
 )
 
 func ptr[T any](v T) *T { return &v }
@@ -86,6 +86,7 @@ type options struct {
 	// Progress indication options
 	maxValue      int
 	noCancel      bool
+	noOK          bool
 	autoClose     bool
 	timeRemaining bool
 

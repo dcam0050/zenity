@@ -1,8 +1,8 @@
 # Zenity dialogs for Golang, Windows and macOS
 
-[![Go Reference](https://pkg.go.dev/badge/image)](https://pkg.go.dev/github.com/ncruces/zenity)
-[![Go Report](https://goreportcard.com/badge/github.com/ncruces/zenity)](https://goreportcard.com/report/github.com/ncruces/zenity)
-[![Go Coverage](https://github.com/ncruces/zenity/wiki/coverage.svg)](https://raw.githack.com/wiki/ncruces/zenity/coverage.html)
+[![Go Reference](https://pkg.go.dev/badge/image)](https://pkg.go.dev/github.com/dcam0050/zenity)
+[![Go Report](https://goreportcard.com/badge/github.com/dcam0050/zenity)](https://goreportcard.com/report/github.com/dcam0050/zenity)
+[![Go Coverage](https://github.com/dcam0050/zenity/wiki/coverage.svg)](https://raw.githack.com/wiki/dcam0050/zenity/coverage.html)
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
 
 This repo includes:
@@ -12,9 +12,9 @@ This repo includes:
 - a *“port”* of the `zenity` command to both Windows and macOS based on that library.
 
 Implemented dialogs:
-* [message](https://github.com/ncruces/zenity/wiki/Message-dialog) (error, info, question, warning)
-* [text entry](https://github.com/ncruces/zenity/wiki/Text-entry-dialog)
-* [list](https://github.com/ncruces/zenity/wiki/List-dialog) (simple)
+* [message](https://github.com/dcam0050/zenity/wiki/Message-dialog) (error, info, question, warning)
+* [text entry](https://github.com/dcam0050/zenity/wiki/Text-entry-dialog)
+* [list](https://github.com/dcam0050/zenity/wiki/List-dialog) (simple)
 * [password](https://github.com/ncruces/zenity/wiki/Password-dialog)
 * [file selection](https://github.com/ncruces/zenity/wiki/File-selection-dialog)
 * [color selection](https://github.com/ncruces/zenity/wiki/Color-selection-dialog)
